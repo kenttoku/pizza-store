@@ -41,16 +41,13 @@ app.get('/:page?', (req, res) => {
 app.post('/signup', (req, res) => {
   const { name, address } = req.body;
   const lowerName = name.toLowerCase();
-  let user;
 
   if (users[lowerName]) {
-    user = users[lowerName];
+    return res.json({ message: 'name taken' });
   } else {
-    user = new User(name, address);
-    users[lowerName] = user;
+    users[lowerName] = new User(name, address);
+    return res.json(users[lowerName]);
   }
-
-  res.json(user);
 });
 
 // 404 Error for unsupported routes

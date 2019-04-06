@@ -14,13 +14,22 @@ const api = (function () {
   if (signupButton) {
     signupButton.addEventListener('click', (e) => {
       e.preventDefault();
-      const name = document.querySelector('#signupForm #name').value;
-      const address = document.querySelector('#signupForm #address').value;
-      const body = { name, address };
-      const success = function (e) {
-        console.log(e.target.response);
+      const name = document.querySelector('#signupForm #name');
+      const address = document.querySelector('#signupForm #address');
+      const body = {
+        name: name.value,
+        address: address.value
       };
-      console.log(name, address);
+
+      const success = function (e) {
+        const { message } = e.target.response;
+
+        if (message) {
+          const signupMessage = document.querySelector('#signupMessage');
+          signupMessage.textContent = message;
+        }
+      };
+
       sendRequest('POST', '/signup', body, success);
     });
   }
