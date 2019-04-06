@@ -2,20 +2,27 @@
 // user -> store -> order -> pizza
 
 const express = require('express');
+const morgan = require('morgan');
 const nunjucks = require('nunjucks');
 const app = express();
-const PORT = 8080; 
+const PORT = 8080;
 
-// Nunjucks Configuration
+// configure logger
+app.use(morgan('dev'));
+
+// parse request body
+app.use(express.json());
+
+// nunjucks configuration
 nunjucks.configure('views', {
   autoescape: true,
   express: app
 });
 
-// Set up static assets
+// set up static assets
 app.use(express.static('.'));
 
-// Makeshift Router
+// makeshift router
 // TODO: Make it work with /:page/something else
 app.get('/:page?', (req, res) => {
   const { params } = req;
@@ -26,13 +33,20 @@ app.get('/:page?', (req, res) => {
   }
 
   console.log(params);
-  res.render('index.njk', params);
+  return res.render('index.njk', params);
+});
+
+app.post('/signup', (req, res) => {
+  console.log('working');
+  const { body } = req;
+
+  console.log(body);
 });
 
 // 404 Error for unsupported routes
 app.use((req, res) => {
   const params = { page: '404' };
-  res.render('index.njk', params);
+  return res.render('index.njk', params);
 });
 
 // Custom Error Handler
