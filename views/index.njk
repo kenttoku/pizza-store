@@ -11,9 +11,7 @@
   <div class="container-fluid content">
     {% include "header.njk" %}
     <main class="row">
-      {% if page.toLowerCase() === 'signup' %}
-        {% include "signup.njk" %}
-      {% elif page.toLowerCase() === '404' %}
+      {% if page.toLowerCase() === '404' %}
         {% include "error.njk" %}
       {% else %}
         {% include "home.njk" %}

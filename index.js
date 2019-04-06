@@ -4,6 +4,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
+const User = require('./js/user');
+const { users } = require('./js/db');
 const app = express();
 const PORT = 8080;
 
@@ -37,28 +39,24 @@ app.get('/:page?', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  console.log('working');
-  const { body } = req;
+  const { name, address } = req.body;
+  const lowerName = name.toLowerCase();
+  let user;
 
-  console.log(body);
+  if (users[lowerName]) {
+    user = users[lowerName];
+  } else {
+    user = new User(name, address);
+    users[lowerName] = user;
+  }
+
+  res.json(user);
 });
 
 // 404 Error for unsupported routes
 app.use((req, res) => {
   const params = { page: '404' };
   return res.render('index.njk', params);
-});
-
-// Custom Error Handler
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  if (err.status) {
-    const errBody = Object.assign({}, err, { message: err.message });
-    res.status(err.status).json(errBody);
-  } else {
-    console.error(err);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
 });
 
 app.listen(PORT, () => console.log(`Server up on PORT ${PORT}`));
