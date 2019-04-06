@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Kent's Pizzeria</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-cheese">
+  <div class="container-fluid content">
+    {% include "header.njk" %}
+    <main class="row">
+      {% if page.toLowerCase() === 'signup' %}
+        {% include "signup.njk" %}
+      {% elif page.toLowerCase() === '404' %}
+        {% include "error.njk" %}
+      {% else %}
+        {% include "home.njk" %}
+      {% endif %}
+    </main>
+    {% include "footer.njk" %}
+  </div>
+</body>
+</html>
