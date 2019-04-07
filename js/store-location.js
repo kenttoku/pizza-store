@@ -1,16 +1,9 @@
 const Address = require('./address');
 const Order = require('./order');
 
-// let storeLocationCollection = {
-//   east: new StoreLocation('EastArlington'),
-//   west: new StoreLocation('WestArlington'),
-//   north: new StoreLocation('NorthArlington'),
-//   south: new StoreLocation('SouthArlington'),
-// };
-
-function StoreLocation (n) {
+function StoreLocation (name) {
   this.id = null;
-  this.name = n;
+  this.name = name;
   this.address = new Address();
   this.orders = [];
 }
