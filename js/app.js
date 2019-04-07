@@ -27,6 +27,10 @@ const app = (function () {
     hide('#cartSection');
   }
 
+  function logOut () {
+    window.localStorage.removeItem('user');
+  }
+
   if (window.localStorage.getItem('user')) {
     showLoggedIn();
   } else {
@@ -162,6 +166,17 @@ const app = (function () {
       };
 
       api.sendRequest('POST', '/order', body, success);
+    });
+  }
+
+  // log out button
+  const logOutButton = document.querySelector('#logOutButton');
+
+  if (logOutButton) {
+    logOutButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      logOut();
+      showLoggedOut();
     });
   }
 })();
