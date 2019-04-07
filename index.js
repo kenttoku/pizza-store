@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
+const moment = require('moment');
 const User = require('./js/user');
 const Order = require('./js/order');
 const Pizza = require('./js/pizza');
@@ -82,12 +83,20 @@ app.post('/order', (req, res) => {
     return res.json({ message: 'invalid' });
   }
 
+  // user can only order after 2 hours passes
+  for (let i = 0; i < orderUser.orders.length; i++) {
+    if (orderUser.orders[i].createdAt.isAfter(moment().subtract(2, 'hours'))) {
+      return res.json({ message: 'please wait at least 2 hours before you order again' });
+    }
+  }
+
+  // user can only order
+
   orderUser.orders.push(order);
   orderStoreLocation.orders.push(order);
-  console.log('ran');
 
-  console.log(orderUser.orders);
-  console.log(orderStoreLocation.orders);
+  // console.log(orderUser.orders);
+  // console.log(orderStoreLocation.orders);
   const message = 'order placed';
   return res.json({ message });
 });
