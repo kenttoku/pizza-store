@@ -1,84 +1,54 @@
-import api from './api.js';
+const app = (function () {
+  // sign up
+  const signupButton = document.querySelector('#signupButton');
 
-// import { Order } from './order.js';
-// import { Pizza } from './pizza.js';
-// import { storeLocationCollection } from './store-location.js';
-// import { userCollection } from './user.js';
+  if (signupButton) {
+    signupButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = document.querySelector('#signupForm #name');
+      const address = document.querySelector('#signupForm #address');
+      const body = {
+        name: name.value,
+        address: address.value
+      };
 
-// function attachLocation (storeLocation, order) {
-//   let store = storeLocationCollection[storeLocation];
-//   store.orders.push(order);
-// }
+      const success = function (e) {
+        const { message, id } = e.target.response;
 
-// function attachUser (userId, order) {
-//   let selectedUser = userCollection.find(user => user.id == userId);
-//   selectedUser.orders.push(order);
-// }
+        if (message) {
+          const signupMessage = document.querySelector('#signupMessage');
+          signupMessage.textContent = message;
+          return;
+        }
 
-// function getSize () {
-//   let sizes = Array.from(document.querySelectorAll('input[name="size"]'));
-//   return sizes.find(size => size.checked).value;
-// }
+        window.localStorage.setItem('user', id);
+      };
+      api.sendRequest('POST', '/signup', body, success);
+    });
+  }
 
-// function getToppings () {
-//   let toppings = Array.from(document.querySelectorAll('input[name="toppings"]'));
-//   return toppings.filter(topping => topping.checked).map(topping => topping.value);
-// }
+  // log in
+  const loginButton = document.querySelector('#loginButton');
 
-// function getCrust () {
-//   let crustCollection = document.querySelector('select[name="crust"]');
-//   return crustCollection.value;
-// }
+  if (loginButton) {
+    loginButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = document.querySelector('#loginForm #name');
+      const body = { name: name.value };
 
-// function validatePizza () {
-//   let size = getSize();
-//   let toppings = getToppings();
-//   let crust = getCrust();
+      const success = function (e) {
+        const { message, id } = e.target.response;
 
-//   if (!size || toppings.length === 0 || !crust) return;
+        if (message) {
+          const loginMessage = document.querySelector('#loginMessage');
+          loginMessage.textContent = message;
+          return;
+        }
 
-//   pizzas.push(new Pizza(crust, size, toppings));
-//   addToOrderCart(pizzas);
-// }
+        window.localStorage.setItem('user', id);
+      };
+      api.sendRequest('POST', '/login', body, success);
+    });
 
-// function addToOrderCart (pizzas) {
-//   let orderCart = document.querySelector('#orderCart');
-
-//   orderCart.innerHTML = '';
-
-//   pizzas.forEach(pizza => {
-//     let li = document.createElement('li');
-//     li.innerHTML = `${pizza.size.name} ${pizza.crust} with ${pizza.toppings} for $${pizza.size.price}`;
-//     orderCart.appendChild(li);
-//   });
-// }
-
-// function createOrder () {
-//   let order = new Order();
-//   order.pizzas = pizzas;
-//   let location = document.querySelector('select[name="location"]');
-//   let user = document.querySelector('select[name="user"]');
-
-//   attachUser(user.value, order);
-//   attachLocation(location.value, order);
-
-//   console.log(order.cost());
-//   console.log(userCollection);
-//   console.log(storeLocationCollection);
-
-//   return order;
-// }
-
-// let pizzas = [];
-// let addPizza = document.querySelector('#addPizza');
-// let placeOrder = document.querySelector('#placeOrder');
-
-// if (addPizza) {
-//   addPizza.addEventListener('click', validatePizza);
-// }
-
-// if (placeOrder) {
-//   placeOrder.addEventListener('click', createOrder);
-// }
-
-// console.log(pizzas);
+  }
+})();

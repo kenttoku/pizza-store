@@ -50,6 +50,17 @@ app.post('/signup', (req, res) => {
   }
 });
 
+app.post('/login', (req, res) => {
+  const { name } = req.body;
+  const lowerName = name.toLowerCase();
+
+  if (users[lowerName]) {
+    return res.json(users[lowerName]);
+  } else {
+    return res.json({ message: 'user not found' });
+  }
+});
+
 // 404 Error for unsupported routes
 app.use((req, res) => {
   const params = { page: '404' };
