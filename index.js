@@ -1,10 +1,8 @@
-// 3 -> 4 -> 2 -> 1
-// user -> store -> order -> pizza
-
 const express = require('express');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
 const User = require('./js/user');
+const Pizza = require('./js/pizza');
 const { users } = require('./js/db');
 const app = express();
 const PORT = 8080;
@@ -59,6 +57,12 @@ app.post('/login', (req, res) => {
   } else {
     return res.json({ message: 'user not found' });
   }
+});
+
+app.post('/pizza', (req, res) => {
+  const { crust, size, toppings } = req.body;
+  const pizza = new Pizza(crust, size, toppings);
+  return res.json({ pizza });
 });
 
 // 404 Error for unsupported routes

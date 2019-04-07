@@ -1,17 +1,8 @@
-<div class="col-12">
+<section class="col-12">
   <h2>Create Pizza</h2>
   <form action="" method="POST" id="addPizzaForm">
     <div>
       <p id="addPizzaMessage"></p>
-    </div>
-    <div class="form-group">
-      <label for="location">Store Location</label>
-      <select name="location" id="location">
-        <option value="north">North Arlington</option>
-        <option value="south">South Arlington</option>
-        <option value="east">East Arlington</option>
-        <option value="West">West Arlington</option>
-      </select>
     </div>
     <div class="form-group">
       <label for="crust">Crust</label>
@@ -27,7 +18,7 @@
       <label for="small">Small</label>
       <input type="radio" name="size" id="small" value="small">
       <label for="medium">Medium</label>
-      <input type="radio" name="size" id="medium" value="medium">
+      <input type="radio" name="size" id="medium" value="medium" checked="true">
       <label for="large">Large</label>
       <input type="radio" name="size" id="large" value="large">
     </div>
@@ -41,4 +32,4 @@
     </div>
     <button type="submit" class="btn btn-primary" id="addPizzaButton">add pizza to order</button>
   </form>
-</div>
+</section>

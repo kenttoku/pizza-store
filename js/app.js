@@ -51,4 +51,57 @@ const app = (function () {
     });
 
   }
+
+  // add pizza to order
+  const addPizzaButton = document.querySelector('#addPizzaButton');
+  const pizzas = [];
+
+  if (addPizzaButton) {
+    addPizzaButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const crust = document.querySelector('select[name="crust"]');
+      const size = document.querySelector('#addPizzaForm input[name="size"]:checked');
+      const toppingCollection = document.querySelectorAll('#addPizzaForm input[name="toppings"]:checked');
+      const toppings = [];
+
+      if (!crust || !size) {
+        return;
+      }
+
+      toppingCollection.forEach(topping => toppings.push(topping.value));
+      const body = {
+        crust: crust.value,
+        size: size.value,
+        toppings
+      };
+
+      const success = function (e) {
+        const { message, pizza } = e.target.response;
+
+        if (message) {
+          const loginMessage = document.querySelector('#loginMessage');
+          loginMessage.textContent = message;
+          return;
+        }
+
+        if (pizza) {
+          pizzas.push(pizza);
+        }
+        console.log(pizzas);
+        const orderCart = document.querySelector('#orderCart');
+
+        if (orderCart) {
+          orderCart.innerHTML = '';
+          pizzas.forEach(pizza => {
+            const li = document.createElement('li');
+            li.innerHTML = `${pizza.size.name} ${pizza.crust} with ${pizza.toppings} for $${pizza.size.price}`;
+            orderCart.appendChild(li);
+          });
+        }
+      };
+      // };
+      api.sendRequest('POST', '/pizza', body, success);
+    });
+
+  }
 })();
