@@ -2,10 +2,10 @@ const StoreLocation = require('./store-location');
 
 const users = {};
 const storeLocations = {
-  north: new StoreLocation('north'),
-  south: new StoreLocation('south'),
-  east: new StoreLocation('east'),
-  west: new StoreLocation('west')
+  north: new StoreLocation('North Arlington'),
+  south: new StoreLocation('South Arlington'),
+  east: new StoreLocation('East Arlington'),
+  west: new StoreLocation('West Arlington')
 };
 
 module.exports = { users, storeLocations };
