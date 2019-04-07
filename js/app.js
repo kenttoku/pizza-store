@@ -1,4 +1,38 @@
 const app = (function () {
+  function hide (selector) {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.classList.add('d-none');
+    }
+  }
+
+  function show (selector) {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.classList.remove('d-none');
+    }
+  }
+
+  function showLoggedIn (){
+    hide('#signupSection');
+    hide('#loginSection');
+    show('#pizzaSection');
+    show('#cartSection');
+  }
+
+  function showLoggedOut () {
+    show('#signupSection');
+    show('#loginSection');
+    hide('#pizzaSection');
+    hide('#cartSection');
+
+  }
+  if (window.localStorage.getItem('user')) {
+    showLoggedIn();
+  } else {
+    showLoggedOut();
+  }
+
   // sign up
   const signupButton = document.querySelector('#signupButton');
 
@@ -22,6 +56,7 @@ const app = (function () {
         }
 
         window.localStorage.setItem('user', id);
+        showLoggedIn();
       };
       api.sendRequest('POST', '/signup', body, success);
     });
@@ -46,6 +81,7 @@ const app = (function () {
         }
 
         window.localStorage.setItem('user', id);
+        showLoggedIn();
       };
       api.sendRequest('POST', '/login', body, success);
     });
