@@ -69,7 +69,6 @@ app.post('/pizza', (req, res) => {
 
 app.post('/order', (req, res) => {
   const { pizzas, user, storeLocation } = req.body;
-  const order = new Order(pizzas);
 
   if (!user || !storeLocation) {
     return res.json({ message: 'invalid' });
@@ -83,15 +82,24 @@ app.post('/order', (req, res) => {
     return res.json({ message: 'invalid' });
   }
 
-  // user can only order after 2 hours passes
-  for (let i = 0; i < orderUser.orders.length; i++) {
-    if (orderUser.orders[i].createdAt.isAfter(moment().subtract(2, 'hours'))) {
-      return res.json({ message: 'please wait at least 2 hours before you order again' });
+  // user can only order 1 order per 2 hour period
+  if (orderUser.orders.length && orderUser.orders[orderUser.orders.length - 1].createdAt.isAfter(moment().subtract(2, 'hours'))) {
+    return res.json({ message: 'please wait at least 2 hours before you order again' });
+  }
+
+  // user can only order from 1 location per 24 hour period
+  for (let i = orderUser.orders.length - 1 ; i >= 0; i--) {
+    if (orderUser.orders[i].storeLocation.name.toLowerCase() !== orderStoreLocation.name.toLowerCase()) {
+      console.log(orderUser.orders[i].storeLocation.name.toLowerCase());
+      if (orderUser.orders[i].createdAt.isAfter(moment().subtract(24, 'hours'))) {
+        return res.json({ message: 'please wait at least 24 hours before you order at a different location' });
+      } else {
+        break;
+      }
     }
   }
 
-  // user can only order
-
+  const order = new Order(pizzas, orderStoreLocation);
   orderUser.orders.push(order);
   orderStoreLocation.orders.push(order);
 

@@ -1,7 +1,8 @@
 const moment = require('moment');
 
-function Order (pizzas) {
+function Order (pizzas, storeLocation) {
   this.id = null;
+  this.storeLocation = storeLocation;
   this.createdAt = moment();
   this.pizzas = pizzas;
   this.cost = function getCost () {
