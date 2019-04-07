@@ -25,8 +25,8 @@ const app = (function () {
     show('#loginSection');
     hide('#pizzaSection');
     hide('#cartSection');
-
   }
+
   if (window.localStorage.getItem('user')) {
     showLoggedIn();
   } else {
@@ -156,7 +156,9 @@ const app = (function () {
       const body = { pizzas, user, storeLocation };
       const success = function (e){
         const { message } = e.target.response;
-        console.log(message);
+        const cartMessage = document.querySelector('#cartMessage');
+
+        cartMessage.textContent = message;
       };
 
       api.sendRequest('POST', '/order', body, success);
