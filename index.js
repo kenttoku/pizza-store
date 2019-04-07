@@ -2,8 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const nunjucks = require('nunjucks');
 const User = require('./js/user');
+const Order = require('./js/order');
 const Pizza = require('./js/pizza');
-const { users } = require('./js/db');
+const { users, storeLocations } = require('./js/db');
 const app = express();
 const PORT = 8080;
 
@@ -63,6 +64,32 @@ app.post('/pizza', (req, res) => {
   const { crust, size, toppings } = req.body;
   const pizza = new Pizza(crust, size, toppings);
   return res.json({ pizza });
+});
+
+app.post('/order', (req, res) => {
+  const { pizzas, user, storeLocation } = req.body;
+  const order = new Order(pizzas);
+
+  if (!user || !storeLocation) {
+    return res.json({ message: 'invalid' });
+  }
+
+  const orderUser = users[user.toLowerCase()];
+  const orderStoreLocation = storeLocations[storeLocation.toLowerCase()];
+
+
+  if (!orderUser || !orderStoreLocation) {
+    return res.json({ message: 'invalid' });
+  }
+
+  orderUser.orders.push(order);
+  orderStoreLocation.orders.push(order);
+  console.log('ran');
+
+  console.log(orderUser.orders);
+  console.log(orderStoreLocation.orders);
+  const message = 'order placed';
+  return res.json({ message });
 });
 
 // 404 Error for unsupported routes

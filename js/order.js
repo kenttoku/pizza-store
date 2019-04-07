@@ -1,13 +1,8 @@
-// import { Pizza } from './pizza.js';
-// import { StoreLocation } from './store-location.js';
-// import { User } from './user.js';
-const Pizza = require('./pizza');
-
-function Order () {
+function Order (pizzas) {
   this.id = null;
-  this.pizzas = [];
+  this.pizzas = pizzas;
   this.cost = function getCost () {
-    let sum = this.pizzas.reduce(function (s, pi) {
+    let sum = this.pizzas.reduce((s, pi) => {
       return s + pi.size.price;
     }, 0);
 

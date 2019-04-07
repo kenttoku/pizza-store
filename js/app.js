@@ -138,6 +138,28 @@ const app = (function () {
       // };
       api.sendRequest('POST', '/pizza', body, success);
     });
+  }
 
+  // order pizza
+  const placeOrderButton = document.querySelector('#placeOrderButton');
+
+  if (placeOrderButton) {
+    placeOrderButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const user = (window.localStorage.getItem('user'));
+      const storeLocation = document.querySelector('select[name="location"]').value;
+
+      if (!pizzas.length || !user || !storeLocation) {
+        return;
+      }
+
+      const body = { pizzas, user, storeLocation };
+      const success = function (e){
+        const { message } = e.target.response;
+        console.log(message);
+      };
+
+      api.sendRequest('POST', '/order', body, success);
+    });
   }
 })();
