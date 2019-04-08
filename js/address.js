@@ -1,9 +1,9 @@
-function Address () {
+function Address (street) {
   this.id = null;
-  this.street = null;
-  this.city = null;
-  this.state = null;
-  this.zipcode = null;
+  this.street = street;
+  this.city = 'Arlington';
+  this.state = 'TX';
+  this.zipcode = '76013';
 }
 
 module.exports = Address;

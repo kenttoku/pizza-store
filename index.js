@@ -103,8 +103,6 @@ app.post('/order', (req, res) => {
   orderUser.orders.push(order);
   orderStoreLocation.orders.push(order);
 
-  // console.log(orderUser.orders);
-  // console.log(orderStoreLocation.orders);
   const message = 'order placed';
   return res.json({ message });
 });

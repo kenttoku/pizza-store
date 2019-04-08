@@ -18,6 +18,7 @@ const app = (function () {
     hide('#loginSection');
     show('#pizzaSection');
     show('#cartSection');
+    show('#logOutButton');
   }
 
   function showLoggedOut () {
@@ -25,6 +26,7 @@ const app = (function () {
     show('#loginSection');
     hide('#pizzaSection');
     hide('#cartSection');
+    hide('#logOutButton');
   }
 
   function logOut () {
@@ -45,6 +47,15 @@ const app = (function () {
       e.preventDefault();
       const name = document.querySelector('#signupForm #name');
       const address = document.querySelector('#signupForm #address');
+
+      // validate
+      if (!name.value || !address.value) {
+        const signupMessage = document.querySelector('#signupMessage');
+        signupMessage.textContent = 'please enter both name and address';
+        return;
+      }
+
+      console.log(name);
       const body = {
         name: name.value,
         address: address.value
@@ -73,6 +84,14 @@ const app = (function () {
     loginButton.addEventListener('click', (e) => {
       e.preventDefault();
       const name = document.querySelector('#loginForm #name');
+
+      // validate
+      if (!name.value) {
+        const signupMessage = document.querySelector('#loginMessage');
+        signupMessage.textContent = 'please enter name';
+        return;
+      }
+
       const body = { name: name.value };
 
       const success = function (e) {
