@@ -55,7 +55,6 @@ const app = (function () {
         return;
       }
 
-      console.log(name);
       const body = {
         name: name.value,
         address: address.value
@@ -146,14 +145,13 @@ const app = (function () {
         if (pizza) {
           pizzas.push(pizza);
         }
-        console.log(pizzas);
         const orderCart = document.querySelector('#orderCart');
 
         if (orderCart) {
           orderCart.innerHTML = '';
           pizzas.forEach(pizza => {
             const li = document.createElement('li');
-            li.innerHTML = `${pizza.size.name} ${pizza.crust} with ${pizza.toppings} for $${pizza.size.price}`;
+            li.innerHTML = `${pizza.size.name} ${pizza.crust} ${pizza.toppings.length ? 'with' : ''} ${pizza.toppings} for $${pizza.size.price}`;
             orderCart.appendChild(li);
           });
         }
