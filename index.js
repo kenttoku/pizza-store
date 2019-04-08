@@ -24,18 +24,9 @@ nunjucks.configure('views', {
 // set up static assets
 app.use(express.static('.'));
 
-// makeshift router
-// TODO: Make it work with /:page/something else
-app.get('/:page?', (req, res) => {
-  const { params } = req;
-
-  // convert to string for .toLowerCase() on index.njk
-  if (typeof params.page !== 'string') {
-    params.page = '';
-  }
-
-  console.log(params);
-  return res.render('index.njk', params);
+// all pages go to index;
+app.get('/*', (req, res) => {
+  return res.render('index.njk');
 });
 
 app.post('/signup', (req, res) => {
@@ -108,6 +99,7 @@ app.post('/order', (req, res) => {
 });
 
 // 404 Error for unsupported routes
+// no longer used. keep just in case
 app.use((req, res) => {
   const params = { page: '404' };
   return res.render('index.njk', params);

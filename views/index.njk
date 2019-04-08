@@ -11,14 +11,10 @@
   <div class="container-fluid content">
     {% include "header.njk" %}
     <main class="row">
-      {% if page.toLowerCase() === '404' %}
-        {% include "error.njk" %}
-      {% else %}
-        {% include "signup.njk" %}
-        {% include "login.njk" %}
-        {% include "pizza.njk" %}
-        {% include "cart.njk" %}
-      {% endif %}
+      {% include "signup.njk" %}
+      {% include "login.njk" %}
+      {% include "pizza.njk" %}
+      {% include "cart.njk" %}
     </main>
     {% include "footer.njk" %}
   </div>
